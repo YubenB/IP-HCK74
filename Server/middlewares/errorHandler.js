@@ -1,5 +1,5 @@
 module.exports = (error, req, res, next) => {
-  //   console.log(error);
+  console.log(error, "ADA ERROR!!!!!!!!!!!");
   if (
     error.name === "SequelizeUniqueConstraintError" ||
     error.name === "SequelizeValidationError"
@@ -9,10 +9,18 @@ module.exports = (error, req, res, next) => {
     });
   }
 
+  if (error.name === "JsonWebTokenError") {
+    return res.status(401).json({
+      message: "Invalid Token",
+    });
+  }
   if (error.name === "InvalidUser") {
     return res
       .status(401)
       .json({ message: "Invalid email/username or password" });
+  }
+  if (error.name === "invalidToken") {
+    return res.status(403).json({ message: "Unauthenticated" });
   }
 
   if (error.name === "notFound") {

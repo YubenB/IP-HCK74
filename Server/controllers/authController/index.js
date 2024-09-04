@@ -1,6 +1,9 @@
-const { User } = require("../../models");
+const { User, Profile } = require("../../models");
 const { signToken } = require("../../helpers/jwt");
 const { comparePassword } = require("../../helpers/bcrypt");
+const { OAuth2Client } = require("google-auth-library");
+const profile = require("../../models/profile");
+const client = new OAuth2Client();
 
 class Auth {
   static async login(req, res, next) {
@@ -24,9 +27,7 @@ class Auth {
         userId: user.id,
       });
 
-      res.status(200).json({
-        message: token,
-      });
+      res.status(200).json(token);
     } catch (error) {
       next(error);
     }
@@ -46,6 +47,58 @@ class Auth {
         message: `Success register user`,
       });
     } catch (error) {
+      next(error);
+    }
+  }
+
+  static async googleLogin(req, res, next) {
+    try {
+      const { googleToken } = req.body;
+
+      const ticket = await client.verifyIdToken({
+        idToken: googleToken,
+        audience: process.env.GOOLE_CLLIENT_ID,
+      });
+
+      const { email, given_name, family_name } = ticket.getPayload();
+
+      const user = await User.findOne({
+        where: { email },
+      });
+      let token = "";
+      if (!user) {
+        let newUser = await User.create(
+          {
+            username: `${given_name}_${family_name}${
+              Math.floor(Math.random() * 9000) + 1000
+            }`,
+            email: email,
+            password: "google123",
+          },
+          {
+            hooks: false,
+          }
+        );
+
+        token = signToken({
+          userId: newUser.id,
+        });
+
+        await Profile.create({
+          UserId: newUser.id,
+          private: false,
+        });
+
+        return res.status(200).json(token);
+      }
+
+      token = signToken({
+        userId: user.id,
+      });
+
+      res.status(200).json(token);
+    } catch (error) {
+      console.log(error, "error coy<><>");
       next(error);
     }
   }

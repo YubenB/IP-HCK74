@@ -18,6 +18,11 @@ module.exports = {
       bio: {
         type: Sequelize.STRING,
       },
+      profilePicture: {
+        type: Sequelize.STRING,
+        defaultValue:
+          "https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-24.jpg",
+      },
       private: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Post.belongsTo(models.User);
     }
   }
   Post.init(
@@ -26,8 +27,14 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       imgUrl: DataTypes.STRING,
-      likes: DataTypes.ARRAY(DataTypes.INTEGER),
-      totalLikes: DataTypes.INTEGER,
+      likes: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+        defaultValue: [],
+      },
+      totalLikes: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
       UserId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -46,5 +53,11 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Post",
     }
   );
+
+  Post.beforeSave((post) => {
+    console.log("masuk save");
+
+    post.totalLikes = post.likes.length;
+  });
   return Post;
 };

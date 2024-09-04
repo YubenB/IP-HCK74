@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
       bio: DataTypes.STRING,
+      profilePicture: {
+        type: DataTypes.STRING,
+        defaultValue:
+          "https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-24.jpg",
+      },
       preferences: DataTypes.ARRAY(DataTypes.STRING),
       private: DataTypes.BOOLEAN,
       UserId: {

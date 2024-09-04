@@ -17,6 +17,7 @@ module.exports = {
       },
       likes: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
+        defaultValue: [],
       },
       totalLikes: {
         type: Sequelize.INTEGER,
