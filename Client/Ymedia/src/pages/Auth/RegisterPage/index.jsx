@@ -42,8 +42,13 @@ const RegisterPage = () => {
     fetchPostRegister();
   };
 
+  const handleGoogleSuccess = (response) => {
+    nav("/");
+  };
+
   return (
     <RegisterPageView
+      handleGoogleSuccess={handleGoogleSuccess}
       error={error}
       email={email}
       username={username}

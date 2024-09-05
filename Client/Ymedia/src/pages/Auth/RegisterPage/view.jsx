@@ -3,6 +3,7 @@ import { Card, Alert } from "flowbite-react";
 import { AuthForm } from "../../../components/Organism/AuthForm";
 import illustration from "../../../assets/register.png";
 import { Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 
 const RegisterPageView = ({
   error,
@@ -13,6 +14,7 @@ const RegisterPageView = ({
   handleEmailChange,
   handleUsernameChange,
   handleSubmit,
+  handleGoogleSuccess,
 }) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -25,8 +27,8 @@ const RegisterPageView = ({
           />
         </div>
         <div className="w-full md:w-1/2 p-8">
-          <Card className="shadow-none">
-            <h1 className="text-2xl font-bold text-center mb-6">Register</h1>
+          <Card className="shadow-none h-[500px]">
+            <h1 className="text-3xl font-bold text-center mb-6">Register</h1>
             {error && (
               <Alert color="failure" className="mb-4">
                 {error}
@@ -42,6 +44,18 @@ const RegisterPageView = ({
               handleSubmit={handleSubmit}
             />
           </Card>
+          <div className="flex justify-center mt-4">
+            <GoogleLogin
+              width="310px"
+              text="Sign up with Google"
+              onSuccess={(credentialResponse) => {
+                return handleGoogleSuccess(credentialResponse);
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
+          </div>
           <div className="text-center mt-4">
             <Link to="/login" className="text-blue-600 hover:underline">
               Already have an account?

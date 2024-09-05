@@ -1,3 +1,4 @@
+import { GoogleLogin } from "@react-oauth/google";
 import PropTypes from "prop-types";
 import { AuthForm } from "../../../components/Organism/AuthForm";
 import illustration from "../../../assets/login.png";
@@ -5,6 +6,7 @@ import { Card, Alert } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 const LoginPageView = ({
+  handleGoogleSuccess,
   emailOrUsername,
   password,
   handleEmailOrUsernameChange,
@@ -23,8 +25,8 @@ const LoginPageView = ({
           />
         </div>
         <div className="w-full md:w-1/2 p-8">
-          <Card className="shadow-none">
-            <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
+          <Card className="shadow-none h-[500px]">
+            <h1 className="text-3xl font-bold text-center mb-6">Login</h1>
             {error && (
               <Alert color="failure" className="mb-4">
                 {error}
@@ -38,6 +40,18 @@ const LoginPageView = ({
               handleSubmit={handleSubmit}
             />
           </Card>
+          <div className="flex justify-center mt-4">
+            <GoogleLogin
+              width="310px"
+              text="Sign in with Google"
+              onSuccess={(credentialResponse) => {
+                return handleGoogleSuccess(credentialResponse);
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
+          </div>
           <div className="text-center mt-4">
             <Link to="/register" className="text-blue-600 hover:underline">
               Don&apos;t have an account?
@@ -56,6 +70,7 @@ LoginPageView.propTypes = {
   handlePasswordChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   error: PropTypes.string,
+  handleGoogleSuccess: PropTypes.func.isRequired,
 };
 
 LoginPageView.defaultProps = {
