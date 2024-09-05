@@ -4,6 +4,7 @@
     "password": "postgres",
     "database": "Ymedia_DB",
     "host": "localhost",
+    "logging": false,
     "dialect": "postgres"
   },
   "test": {
