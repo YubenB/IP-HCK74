@@ -61,6 +61,13 @@ class Auth {
       });
 
       const { email, given_name, family_name } = ticket.getPayload();
+      const cleanGivenName = given_name.replace(/\s+/g, "");
+      const cleanFamilyName = family_name
+        ? family_name.replace(/\s+/g, "")
+        : "Y-user";
+      const formattedString = `${cleanGivenName}_${cleanFamilyName}${
+        Math.floor(Math.random() * 9000) + 1000
+      }`;
 
       const user = await User.findOne({
         where: { email },
@@ -69,9 +76,7 @@ class Auth {
       if (!user) {
         let newUser = await User.create(
           {
-            username: `${given_name}_${family_name}${
-              Math.floor(Math.random() * 9000) + 1000
-            }`,
+            username: formattedString,
             email: email,
             password: "google123",
           },
