@@ -1,12 +1,28 @@
-import { createBrowserRouter, Outlet, redirect } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import LoginPage from "./pages/Auth/LoginPage";
 import RegisterPage from "./pages/Auth/RegisterPage";
 import HomePage from "./pages/Home";
 import RightSideBar from "./components/Organism/RightSideBar";
 import LeftSideBar from "./components/Organism/LeftSideBar";
-import Profile from "./pages/Profile";
 import PostDetail from "./pages/PostDetail";
+import ProfilePage from "./pages/Profile";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { checkLoggedIn } from "./features/userLoginSlice";
+import { fetchUser } from "./features/userSlice";
+
+const FetchUser = () => {
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((store) => store.isLoggedIn);
+
+  useEffect(() => {
+    dispatch(checkLoggedIn());
+    if (isLoggedIn) {
+      dispatch(fetchUser());
+    }
+  }, [dispatch, isLoggedIn]);
+};
 
 const router = createBrowserRouter([
   {
@@ -34,6 +50,7 @@ const router = createBrowserRouter([
           className="w-1/2 bg-white p-4 flex-1 h-screen overflow-y-auto"
           id="check"
         >
+          <FetchUser />
           <Outlet />
         </div>
         <RightSideBar />
@@ -56,7 +73,7 @@ const router = createBrowserRouter([
       // },
       {
         path: "/profile/:username",
-        element: <Profile />,
+        element: <ProfilePage />,
       },
     ],
   },

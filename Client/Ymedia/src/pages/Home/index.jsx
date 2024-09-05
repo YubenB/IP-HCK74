@@ -7,7 +7,7 @@ import timeAgo from "../../utils/helpers/timeNow";
 
 const HomePage = () => {
   const [image, setImage] = useState(null);
-  const [allJob, setAllJob] = useState([]);
+  const [allPost, setAllPost] = useState([]);
   const [caption, setCaption] = useState("");
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
@@ -22,7 +22,7 @@ const HomePage = () => {
       const { data } = await getAllPosts(currentPage);
       setTotalItems(data.totalItems);
       setTotalPages(data.totalPages);
-      setAllJob([...allJob, ...data.posts]);
+      setAllPost([...allPost, ...data.posts]);
     } catch (error) {
       console.log(error);
     }
@@ -76,7 +76,7 @@ const HomePage = () => {
       totalItems={totalItems}
       totalPages={totalPages}
       loading={loading}
-      allJob={allJob}
+      allPost={allPost}
       isLoggedIn={isLoggedIn}
       user={user}
       image={image}

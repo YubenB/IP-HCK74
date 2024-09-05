@@ -5,6 +5,13 @@ import illustration from "../../../assets/login.png";
 import { Card, Alert } from "flowbite-react";
 import { Link } from "react-router-dom";
 
+
+// emailOrUsername={emailOrUsername}
+// password={password}
+// handleEmailOrUsernameChange={handleEmailUsernameChange}
+// handlePasswordChange={handlePasswordChange}
+// handleSubmit={handleSubmit}
+
 const LoginPageView = ({
   handleGoogleSuccess,
   emailOrUsername,

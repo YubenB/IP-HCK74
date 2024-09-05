@@ -46,13 +46,15 @@ const getUser = async () => {
   return response;
 };
 
-const getAllPosts = async (currentPage) => {
+const getAllPosts = async (currentPage, filter) => {
   try {
-    console.log(currentPage, "<>?<>???<><>");
+    let option = ``;
 
+    if (currentPage) option += `page=${currentPage}`;
+    if (filter) option += `&filter[UserId]=${filter}`;
     const response = await axios({
       method: "GET",
-      url: `http://localhost:80/posts?page=${currentPage}`,
+      url: `http://localhost:80/posts?${option}`,
     });
     return response;
   } catch (error) {
@@ -111,7 +113,34 @@ const postComment = async (commentText, PostId) => {
   return response;
 };
 
+const updateProfile = async (formData) => {
+  const response = await axios({
+    method: "PUT",
+    url: "http://localhost:80/profile/edit",
+    data: formData,
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  return response;
+};
+
+const getAiResponse = async () => {
+  const response = await axios({
+    method: "GET",
+    url: "http://localhost:80/ai",
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  return response;
+};
+
 export {
+  updateProfile,
+  getAiResponse,
   postLogin,
   postRegister,
   postGoogleAuth,

@@ -19,7 +19,7 @@ const PostDetail = () => {
     try {
       const { data } = await getPostDetail(id);
       setPost(data);
-      setLiked(data.likes.some((like) => like === user.id));
+      setLiked(data.likes.some((like) => like === user.user?.id));
       setCountLike(data.totalLikes);
     } catch (error) {
       console.log(error);

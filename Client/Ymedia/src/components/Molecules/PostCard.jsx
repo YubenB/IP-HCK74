@@ -20,6 +20,7 @@ export default function PostCard({
 }) {
   const [liked, setLiked] = useState(false);
   const [countLike, setCountLike] = useState(totalLikes);
+  console.log(userId);
 
   useEffect(() => {
     setLiked(likes.some((like) => like === userId));

@@ -1,7 +1,5 @@
 import { Avatar } from "flowbite-react";
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUser } from "../../features/userSlice";
 import { checkLoggedIn } from "../../features/userLoginSlice";
 import { Link } from "react-router-dom";
 
@@ -16,19 +14,23 @@ export default function LeftSideBar() {
     dispatch(checkLoggedIn());
   };
 
-  useEffect(() => {
-    dispatch(checkLoggedIn());
-    if (isLoggedIn) {
-      dispatch(fetchUser());
-    }
-  }, [dispatch, isLoggedIn]);
+  // useEffect(() => {
+  //   dispatch(checkLoggedIn());
+  //   if (isLoggedIn) {
+  //     dispatch(fetchUser());
+  //   }
+  // }, [dispatch, isLoggedIn]);
 
   return (
     <div className="w-1/4 bg-white p-4 border-r">
       {isLoggedIn && (
         <div className="mb-6 flex gap-4 ">
-          <Avatar img="" alt="Profile Picture" rounded={true} />
-          <p className="mt-4 text-lg font-semibold">{user.username}</p>
+          <Avatar
+            img={user.user?.Profile.profilePicture}
+            alt="Profile Picture"
+            rounded={true}
+          />
+          <p className="mt-4 text-lg font-semibold">@{user.user?.username}</p>
         </div>
       )}
       <nav className="space-y-4">
@@ -39,7 +41,7 @@ export default function LeftSideBar() {
           Home
         </Link>
         <Link
-          to={isLoggedIn ? `/profile/${user.username}` : `/login`}
+          to={isLoggedIn ? `/profile/${user.user?.username}` : `/login`}
           className="block text-lg font-medium text-gray-700 hover:text-blue-600"
         >
           Profile

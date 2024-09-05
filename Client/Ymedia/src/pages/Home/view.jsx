@@ -7,7 +7,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const HomePageView = ({
   user,
-  allJob,
+  allPost,
   isLoggedIn,
   image,
   handleImageChange,
@@ -25,7 +25,7 @@ const HomePageView = ({
   setCurrentPage,
   onFormSubmit,
 }) => {
-  console.log(`Current page1: ${currentPage}`);
+  console.log(allPost, "???<><>");
   return (
     <>
       {loading && (
@@ -36,7 +36,7 @@ const HomePageView = ({
 
       <div className="space-y-6">
         <InfiniteScroll
-          dataLength={allJob.length} //This is important field to render the next data
+          dataLength={allPost.length} //This is important field to render the next data
           next={() => setCurrentPage((value) => value + 1)}
           hasMore={currentPage != totalPages}
           loader={<h4>Loading...</h4>}
@@ -51,8 +51,8 @@ const HomePageView = ({
         >
           {isLoggedIn && (
             <NewPostCard
-              username={user.username}
-              profilePicture={user.profilePicture}
+              username={user.user?.username}
+              profilePicture={user.user?.Profile.profilePicture}
               image={image}
               handleImageChange={handleImageChange}
               handleImageRemove={handleImageRemove}
@@ -61,17 +61,17 @@ const HomePageView = ({
               onFormSubmit={onFormSubmit}
             />
           )}
-          {allJob &&
-            allJob.map((post) => (
+          {allPost &&
+            allPost.map((post) => (
               <PostCard
                 key={post.id}
                 isLoggedIn={isLoggedIn}
                 postId={post.id}
                 likes={post.likes}
-                userId={user.id}
+                userId={user.user?.id}
                 caption={post.caption}
                 username={post.User?.username}
-                profilePicture={post.Profile?.profilePicture}
+                profilePicture={post.User?.Profile.profilePicture}
                 imgUrl={post.imgUrl}
                 totalLikes={post.totalLikes}
                 postDate={post.createdAt}
@@ -92,7 +92,7 @@ HomePageView.propTypes = {
     username: PropTypes.string,
     profilePicture: PropTypes.string,
   }),
-  allJob: PropTypes.array,
+  allPost: PropTypes.array,
   isLoggedIn: PropTypes.bool,
   image: PropTypes.string,
   handleImageChange: PropTypes.func,
