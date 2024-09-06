@@ -1,5 +1,5 @@
 const { Post, User, Profile, Comment } = require("../../models");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
@@ -85,6 +85,31 @@ module.exports = class Auth {
         UserId,
         imgUrl: result?.secure_url,
         // ...(imgUrl && { imgUrl }),
+      });
+
+      res.status(200).json({
+        message: "Ok",
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async deletePost(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { id: UserId } = req.user;
+
+      const post = await Post.findByPk(id);
+
+      if (!post) throw { name: "Post not found" };
+      if (post.UserId !== UserId) throw { name: "Unauthorized" };
+
+      await Post.destroy({
+        where: {
+          UserId,
+        },
       });
 
       res.status(200).json({
