@@ -63,11 +63,6 @@ export default function ProfilePageView({ user }) {
 
   return (
     <div className="w-full max-w-5xl mx-auto bg-gray-100 relative">
-      {loading && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-          <Spinner aria-label="Loading" size="xl" />
-        </div>
-      )}
       {/* Cover Photo */}
       <div className="relative bg-blue-500 h-48 md:h-60">
         <div className="absolute bottom-[-50px] left-6">
@@ -219,6 +214,11 @@ export default function ProfilePageView({ user }) {
             Save Changes
           </Button>
         </Modal.Footer>
+        {loading && (
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+            <Spinner aria-label="Loading" size="xl" />
+          </div>
+        )}
       </Modal>
     </div>
   );

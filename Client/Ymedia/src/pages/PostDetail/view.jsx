@@ -1,19 +1,28 @@
 import { Avatar, Button, Textarea } from "flowbite-react";
+import { Spinner } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 const PostDetailView = ({
   post,
   liked,
+  user,
   countLike,
+  loading,
   isLoggedIn,
   timeAgo,
   handleCommentSubmit,
   onCommentChange,
   commentText,
   handleLikeClick,
+  handleDeleteClick,
 }) => {
   return (
     <>
+      {loading && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+          <Spinner aria-label="Loading" size="xl" />
+        </div>
+      )}
       <Link
         to="/"
         className="text-lg inline-block text-blue-500 hover:text-blue-700 font-semibold mb-2"
@@ -33,6 +42,14 @@ const PostDetailView = ({
             <h2 className="text-lg font-semibold">{post.User?.username}</h2>
             <p className="text-sm text-gray-500">{timeAgo(post.createdAt)}</p>
           </div>
+          {isLoggedIn && user.user?.id === post.UserId && (
+            <button
+              onClick={handleDeleteClick}
+              className="ml-auto text-red-600 hover:text-red-800"
+            >
+              Delete
+            </button>
+          )}
         </div>
 
         <div className="border-b border-gray-200 mb-6"></div>
@@ -102,21 +119,23 @@ const PostDetailView = ({
             post.Comments.map((comment) => (
               <div
                 key={comment.id}
-                className="flex items-start mb-4 p-4 border border-gray-200 rounded-lg bg-gray-50"
+                className="flex items-start justify-between mb-4 p-4 border border-gray-200 rounded-lg bg-gray-50"
               >
-                <Avatar
-                  img={comment.User.Profile.profilePicture}
-                  alt={comment.User.username}
-                  className="mr-4"
-                />
-                <div>
-                  <h4 className="font-semibold">{comment.User.username}</h4>
-                  <p className="text-xs text-gray-400">
-                    {new Date(comment.createdAt).toLocaleDateString()}
-                  </p>
-                  <p className="text-gray-700 break-all">
-                    {comment.commentText}
-                  </p>
+                <div className="flex items-start">
+                  <Avatar
+                    img={comment.User.Profile.profilePicture}
+                    alt={comment.User.username}
+                    className="mr-4"
+                  />
+                  <div>
+                    <h4 className="font-semibold">{comment.User.username}</h4>
+                    <p className="text-xs text-gray-400">
+                      {new Date(comment.createdAt).toLocaleDateString()}
+                    </p>
+                    <p className="text-gray-700 break-all">
+                      {comment.commentText}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))

@@ -13,6 +13,7 @@ export default function RightSideBar() {
       const fetchAiResponse = async () => {
         try {
           const { data } = await getAiResponse();
+          console.log(data, "?????");
           setAiResponse(data.result);
         } catch (error) {
           console.log(error);

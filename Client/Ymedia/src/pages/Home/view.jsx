@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import NewPostCard from "../../components/Molecules/NewPostCard";
 import PostCard from "../../components/Molecules/PostCard";
 import { Spinner } from "flowbite-react";
-import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const HomePageView = ({

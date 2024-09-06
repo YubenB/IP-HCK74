@@ -7,7 +7,7 @@ function getToken() {
 const postLogin = async (emailOrUsername, password) => {
   const response = await axios({
     method: "POST",
-    url: "http://localhost:80/login",
+    url: "https://ymedia.yubenbauty.site/login",
     data: { emailOrUsername, password },
   });
 
@@ -17,7 +17,7 @@ const postLogin = async (emailOrUsername, password) => {
 const postRegister = async (email, username, password) => {
   const response = await axios({
     method: "POST",
-    url: "http://localhost:80/register",
+    url: "https://ymedia.yubenbauty.site/register",
     data: { email, username, password },
   });
 
@@ -27,7 +27,7 @@ const postRegister = async (email, username, password) => {
 const postGoogleAuth = async (googleToken) => {
   const response = await axios({
     method: "POST",
-    url: "http://localhost:80/login/google",
+    url: "https://ymedia.yubenbauty.site/login/google",
     data: { googleToken },
   });
 
@@ -37,7 +37,7 @@ const postGoogleAuth = async (googleToken) => {
 const getUser = async () => {
   const response = await axios({
     method: "GET",
-    url: "http://localhost:80/user",
+    url: "https://ymedia.yubenbauty.site/user",
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },
@@ -54,7 +54,7 @@ const getAllPosts = async (currentPage, filter) => {
     if (filter) option += `&filter[UserId]=${filter}`;
     const response = await axios({
       method: "GET",
-      url: `http://localhost:80/posts?${option}`,
+      url: `https://ymedia.yubenbauty.site/posts?${option}`,
     });
     return response;
   } catch (error) {
@@ -66,7 +66,7 @@ const getAllPosts = async (currentPage, filter) => {
 const getPostDetail = async (postId) => {
   const response = await axios({
     method: "GET",
-    url: `http://localhost:80/posts/detail/${postId}`,
+    url: `https://ymedia.yubenbauty.site/posts/detail/${postId}`,
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },
@@ -78,8 +78,20 @@ const getPostDetail = async (postId) => {
 const createPost = async (formData) => {
   const response = await axios({
     method: "POST",
-    url: "http://localhost:80/posts",
+    url: "https://ymedia.yubenbauty.site/posts",
     data: formData,
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  return response;
+};
+
+const deletePost = async (postId) => {
+  const response = await axios({
+    method: "delete",
+    url: `https://ymedia.yubenbauty.site/posts/${postId}`,
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },
@@ -91,7 +103,7 @@ const createPost = async (formData) => {
 const postLike = async (postId) => {
   const response = await axios({
     method: "POST",
-    url: `http://localhost:80/posts/${postId}`,
+    url: `https://ymedia.yubenbauty.site/posts/${postId}`,
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },
@@ -103,7 +115,7 @@ const postLike = async (postId) => {
 const postComment = async (commentText, PostId) => {
   const response = await axios({
     method: "POST",
-    url: "http://localhost:80/comment/post",
+    url: "https://ymedia.yubenbauty.site/comment/post",
     data: { commentText, PostId },
     headers: {
       Authorization: `Bearer ${getToken()}`,
@@ -116,7 +128,7 @@ const postComment = async (commentText, PostId) => {
 const updateProfile = async (formData) => {
   const response = await axios({
     method: "PUT",
-    url: "http://localhost:80/profile/edit",
+    url: "https://ymedia.yubenbauty.site/profile/edit",
     data: formData,
     headers: {
       Authorization: `Bearer ${getToken()}`,
@@ -129,7 +141,7 @@ const updateProfile = async (formData) => {
 const getAiResponse = async () => {
   const response = await axios({
     method: "GET",
-    url: "http://localhost:80/ai",
+    url: "https://ymedia.yubenbauty.site/ai",
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },
@@ -140,6 +152,7 @@ const getAiResponse = async () => {
 
 export {
   updateProfile,
+  deletePost,
   getAiResponse,
   postLogin,
   postRegister,
