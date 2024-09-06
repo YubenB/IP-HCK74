@@ -1,0 +1,21 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "Ymedia_DB",
+    "host": "localhost",
+    "logging": false,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "use_env_variable": "database_url",
+    "dialect": "postgres" 
+  }
+}
